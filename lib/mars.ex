@@ -29,7 +29,12 @@ defmodule Mars do
         %Rover{rover | heading: get_right(rover.heading), commands: commands}
 
       :forward ->
-        %Rover{rover | x: get_forward_x(rover), y: get_forward_y(rover), commands: commands}
+        %Rover{
+          rover
+          | x: get_forward_x(rover),
+            y: get_forward_y(rover),
+            commands: commands
+        }
 
       _ ->
         raise "invalid command"

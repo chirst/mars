@@ -7,7 +7,17 @@ defmodule MarsTest do
       x: 1,
       y: 2,
       heading: :north,
-      commands: [:left, :forward, :left, :forward, :left, :forward, :left, :forward, :forward],
+      commands: [
+        :left,
+        :forward,
+        :left,
+        :forward,
+        :left,
+        :forward,
+        :left,
+        :forward,
+        :forward
+      ],
       max_x: 5,
       max_y: 6
     }
