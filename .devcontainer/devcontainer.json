@@ -1,0 +1,16 @@
+{
+	"name": "Elixir (Community)",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"VARIANT": "1.10.4"
+		}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"jakebecker.elixir-ls"
+			]
+		}
+	}
+}
