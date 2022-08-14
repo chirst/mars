@@ -65,17 +65,49 @@ defmodule Mars do
     case rover.heading do
       :north -> rover.x
       :south -> rover.x
-      :east -> rover.x + 1
-      :west -> rover.x - 1
+      :east -> get_increased_x(rover)
+      :west -> get_decreased_x(rover)
     end
   end
 
   defp get_forward_y(rover) do
     case rover.heading do
-      :north -> rover.y + 1
-      :south -> rover.y - 1
+      :north -> get_increased_y(rover)
+      :south -> get_decreased_y(rover)
       :east -> rover.y
       :west -> rover.y
+    end
+  end
+
+  defp get_increased_y(rover) do
+    if rover.y == rover.max_y do
+      0
+    else
+      rover.y + 1
+    end
+  end
+
+  defp get_decreased_y(rover) do
+    if rover.y == 0 do
+      rover.max_y
+    else
+      rover.y - 1
+    end
+  end
+
+  defp get_increased_x(rover) do
+    if rover.x == rover.max_x do
+      0
+    else
+      rover.x + 1
+    end
+  end
+
+  defp get_decreased_x(rover) do
+    if rover.x == 0 do
+      rover.max_x
+    else
+      rover.x - 1
     end
   end
 end
