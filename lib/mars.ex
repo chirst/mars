@@ -29,10 +29,12 @@ defmodule Mars do
         %Rover{rover | heading: get_right(rover.heading), commands: commands}
 
       :forward ->
+        [x, y] = get_forward(rover)
+
         %Rover{
           rover
-          | x: get_forward_x(rover),
-            y: get_forward_y(rover),
+          | x: x,
+            y: y,
             commands: commands
         }
 
@@ -61,53 +63,17 @@ defmodule Mars do
     end
   end
 
-  defp get_forward_x(rover) do
-    case rover.heading do
-      :north -> rover.x
-      :south -> rover.x
-      :east -> get_increased_x(rover)
-      :west -> get_decreased_x(rover)
-    end
-  end
-
-  defp get_forward_y(rover) do
-    case rover.heading do
-      :north -> get_increased_y(rover)
-      :south -> get_decreased_y(rover)
-      :east -> rover.y
-      :west -> rover.y
-    end
-  end
-
-  defp get_increased_y(rover) do
-    if rover.y == rover.max_y do
-      0
-    else
-      rover.y + 1
-    end
-  end
-
-  defp get_decreased_y(rover) do
-    if rover.y == 0 do
-      rover.max_y
-    else
-      rover.y - 1
-    end
-  end
-
-  defp get_increased_x(rover) do
-    if rover.x == rover.max_x do
-      0
-    else
-      rover.x + 1
-    end
-  end
-
-  defp get_decreased_x(rover) do
-    if rover.x == 0 do
-      rover.max_x
-    else
-      rover.x - 1
+  defp get_forward(%{heading: heading, x: x, y: y, max_x: max_x, max_y: max_y}) do
+    case heading do
+      :north when y == max_y -> [x, 0]
+      :north -> [x, y + 1]
+      :south when y == 0 -> [x, max_y]
+      :south -> [x, y - 1]
+      :east when x == max_x -> [0, y]
+      :east -> [x + 1, y]
+      :west when x == 0 -> [max_x, y]
+      :west -> [x - 1, y]
+      _ -> raise "unhandled forward"
     end
   end
 end

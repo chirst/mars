@@ -37,6 +37,7 @@ defmodule MarsTest do
       max_x: 1,
       max_y: 1
     }
+
     rover = Mars.navigate(rover)
     assert rover.y == 0
   end
@@ -50,6 +51,7 @@ defmodule MarsTest do
       max_x: 1,
       max_y: 1
     }
+
     rover = Mars.navigate(rover)
     assert rover.y == 1
   end
@@ -63,6 +65,7 @@ defmodule MarsTest do
       max_x: 1,
       max_y: 1
     }
+
     rover = Mars.navigate(rover)
     assert rover.x == 0
   end
@@ -76,6 +79,7 @@ defmodule MarsTest do
       max_x: 1,
       max_y: 1
     }
+
     rover = Mars.navigate(rover)
     assert rover.x == 1
   end
