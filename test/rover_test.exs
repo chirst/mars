@@ -22,7 +22,7 @@ defmodule RoverTest do
       max_y: 6
     }
 
-    rover = rover |> Rover.navigate
+    rover = rover |> Rover.navigate()
     assert rover.x == 1
     assert rover.y == 3
     assert rover.heading == :north
@@ -38,7 +38,7 @@ defmodule RoverTest do
       max_y: 1
     }
 
-    rover = rover |> Rover.navigate
+    rover = rover |> Rover.navigate()
     assert rover.y == 0
   end
 
@@ -52,7 +52,7 @@ defmodule RoverTest do
       max_y: 1
     }
 
-    rover = rover |> Rover.navigate
+    rover = rover |> Rover.navigate()
     assert rover.y == 1
   end
 
@@ -66,7 +66,7 @@ defmodule RoverTest do
       max_y: 1
     }
 
-    rover = rover |> Rover.navigate
+    rover = rover |> Rover.navigate()
     assert rover.x == 0
   end
 
@@ -80,7 +80,7 @@ defmodule RoverTest do
       max_y: 1
     }
 
-    rover = rover |> Rover.navigate
+    rover = rover |> Rover.navigate()
     assert rover.x == 1
   end
 end

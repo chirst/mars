@@ -8,17 +8,15 @@ defmodule Reader do
   def rovers_from_file(path) do
     {:ok, binary} = File.read(path)
     [first_line | lines] = String.split(binary, "\n", trim: true)
-    [max_x, max_y] = parse_dimensions(first_line)
-    parse_rovers(lines, max_x, max_y)
+    [max_x, max_y] = parse_dimension(first_line)
+
+    lines
+    |> Enum.chunk_every(2)
+    |> Enum.map(&parse_rover(&1, max_x, max_y))
   end
 
-  defp parse_dimensions(dimension_line) do
+  defp parse_dimension(dimension_line) do
     for d <- String.split(dimension_line, " "), do: String.to_integer(d)
-  end
-
-  defp parse_rovers(rover_lines, max_x, max_y) do
-    rovers = Enum.chunk_every(rover_lines, 2)
-    for r <- rovers, do: parse_rover(r, max_x, max_y)
   end
 
   defp parse_rover(rover, max_x, max_y) do
@@ -29,7 +27,8 @@ defmodule Reader do
       x: String.to_integer(x),
       y: String.to_integer(y),
       heading: parse_heading(heading),
-      commands: parse_commands(commands),
+      commands:
+        for(c <- String.split(commands, "", trim: true), do: parse_command(c)),
       max_x: max_x,
       max_y: max_y
     }
@@ -43,10 +42,6 @@ defmodule Reader do
       "W" -> :west
       _ -> raise "invalid heading"
     end
-  end
-
-  defp parse_commands(commands) do
-    for c <- String.split(commands, ""), c != "", do: parse_command(c)
   end
 
   defp parse_command(command) do

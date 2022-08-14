@@ -10,20 +10,22 @@ defmodule Rover do
     rover |> command |> navigate
   end
 
-  def navigate(rover) do rover end
+  def navigate(rover) do
+    rover
+  end
 
   def command(%Rover{commands: commands} = rover) when length(commands) > 0 do
     [command | commands] = rover.commands
 
     case command do
       :left ->
-        %Rover{rover | heading: rover |> Rover.left, commands: commands}
+        %Rover{rover | heading: rover |> Rover.left(), commands: commands}
 
       :right ->
-        %Rover{rover | heading: rover |> Rover.right, commands: commands}
+        %Rover{rover | heading: rover |> Rover.right(), commands: commands}
 
       :forward ->
-        [x, y] = rover |> Rover.forward
+        [x, y] = rover |> Rover.forward()
 
         %Rover{
           rover
@@ -34,7 +36,9 @@ defmodule Rover do
     end
   end
 
-  def command(rover) do rover end
+  def command(rover) do
+    rover
+  end
 
   def left(%{heading: heading}) do
     case heading do
