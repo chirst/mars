@@ -1,5 +1,10 @@
 defmodule Reader do
-  @spec rovers_from_file(String.t()) :: list(Mars.Rover)
+  @moduledoc """
+  Reader is responsible for creating rovers from external sources. For example a
+  file or console input.
+  """
+
+  @spec rovers_from_file(String.t()) :: list(Rover)
   def rovers_from_file(path) do
     {:ok, binary} = File.read(path)
     [first_line | lines] = String.split(binary, "\n", trim: true)
@@ -20,7 +25,7 @@ defmodule Reader do
     [position, commands] = rover
     [x, y, heading] = String.split(position, " ", trim: true)
 
-    %Mars.Rover{
+    %Rover{
       x: String.to_integer(x),
       y: String.to_integer(y),
       heading: parse_heading(heading),
