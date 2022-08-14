@@ -1,4 +1,8 @@
-# Problem
+# Mars
+
+A variation of the Mars rover challenge to try out Elixir.
+
+## Problem
 
 A squad of robotic rovers are to be landed by NASA on a plateau on Mars.
 
@@ -19,7 +23,7 @@ means move forward one grid point, and maintain the same heading.
 
 Assume that the square directly North from (x, y) is (x, y+1).
 
-INPUT:
+## Input:
 
 The first line of input is the upper-right coordinates of the plateau, the
 lower-left coordinates are assumed to be 0,0.
@@ -35,14 +39,6 @@ corresponding to the x and y co-ordinates and the rover’s orientation.
 Each rover will be finished sequentially, which means that the second rover
 won’t start to move until the first one has finished moving.
 
-OUTPUT
-
-The output for each rover should be its final co-ordinates and heading.
-
-INPUT AND OUTPUT
-
-Test Input:
-
 ```
 5 5
 1 2 N
@@ -51,7 +47,9 @@ LMLMLMLMM
 MMRMMRMRRM
 ```
 
-Expected Output:
+## Output:
+
+The output for each rover should be its final co-ordinates and heading.
 
 ```
 1 3 N
