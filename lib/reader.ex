@@ -1,11 +1,15 @@
-defmodule Reader do
+defmodule Rover.Reader do
   @moduledoc """
   Reader is responsible for creating rovers from external sources. For example a
   file or console input.
   """
 
-  @spec rovers_from_file(String.t()) :: list(Rover)
-  def rovers_from_file(path) do
+  @doc """
+  Expects to read a text file as described in the README at the given path and
+  returns a list of rovers.
+  """
+  @spec file(String.t()) :: [Rover]
+  def file(path) do
     {:ok, binary} = File.read(path)
     [first_line | lines] = String.split(binary, "\n", trim: true)
     [max_x, max_y] = parse_dimension(first_line)
@@ -19,19 +23,17 @@ defmodule Reader do
     for d <- String.split(dimension_line, " "), do: String.to_integer(d)
   end
 
-  defp parse_rover(rover, max_x, max_y) do
-    [position, commands] = rover
+  defp parse_rover([position, commands], max_x, max_y) do
     [x, y, heading] = String.split(position, " ", trim: true)
 
-    %Rover{
-      x: String.to_integer(x),
-      y: String.to_integer(y),
-      heading: parse_heading(heading),
-      commands:
-        for(c <- String.split(commands, "", trim: true), do: parse_command(c)),
-      max_x: max_x,
-      max_y: max_y
-    }
+    Rover.new(
+      String.to_integer(x),
+      String.to_integer(y),
+      parse_heading(heading),
+      for(c <- String.split(commands, "", trim: true), do: parse_command(c)),
+      max_x,
+      max_y
+    )
   end
 
   defp parse_heading(heading) do

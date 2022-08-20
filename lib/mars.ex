@@ -4,7 +4,7 @@ defmodule Mars do
   """
 
   def execute_mission do
-    for r <- Reader.rovers_from_file("test.txt"), do: r |> Rover.navigate()
+    for r <- Rover.Reader.file("test.txt"), do: Rover.navigate(r)
     # TODO introduce writer
   end
 end

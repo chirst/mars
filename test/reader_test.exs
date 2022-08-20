@@ -1,9 +1,9 @@
 defmodule ReaderTest do
   use ExUnit.Case
-  doctest Reader
+  doctest Rover.Reader
 
   test "rovers from file" do
-    [first, second] = Reader.rovers_from_file("test.txt")
+    [first, second] = Rover.Reader.file("test.txt")
     assert first.x == 1
     assert first.y == 2
     assert first.heading == :north

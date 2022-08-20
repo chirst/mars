@@ -6,28 +6,66 @@ defmodule Rover do
   @enforce_keys [:x, :y, :heading, :commands, :max_x, :max_y]
   defstruct @enforce_keys
 
-  def navigate(%Rover{commands: commands} = rover) when length(commands) > 0 do
+  @type t :: %__MODULE__{
+          x: integer(),
+          y: integer(),
+          heading: heading(),
+          commands: commands(),
+          max_x: integer(),
+          max_y: integer()
+        }
+
+  @type heading :: :north | :west | :south | :east
+  @type commands :: :left | :right | :forward
+
+  @spec new(integer, integer, heading, [commands], integer, integer) ::
+          %__MODULE__{}
+  def new(
+        x,
+        y,
+        heading,
+        commands,
+        max_x,
+        max_y
+      ) do
+    %__MODULE__{
+      x: x,
+      y: y,
+      heading: heading,
+      commands: commands,
+      max_x: max_x,
+      max_y: max_y
+    }
+  end
+
+  @spec navigate(%__MODULE__{}) :: %__MODULE__{}
+  def navigate(%__MODULE__{commands: commands} = rover)
+      when length(commands) > 0 do
     rover |> command |> navigate
   end
 
-  def navigate(rover) do
-    rover
-  end
+  def navigate(rover), do: rover
 
-  def command(%Rover{commands: commands} = rover) when length(commands) > 0 do
+  @spec command(%__MODULE__{}) :: %__MODULE__{}
+  def command(%__MODULE__{commands: commands} = rover)
+      when length(commands) > 0 do
     [command | commands] = rover.commands
 
     case command do
       :left ->
-        %Rover{rover | heading: rover |> Rover.left(), commands: commands}
+        %__MODULE__{rover | heading: __MODULE__.left(rover), commands: commands}
 
       :right ->
-        %Rover{rover | heading: rover |> Rover.right(), commands: commands}
+        %__MODULE__{
+          rover
+          | heading: __MODULE__.right(rover),
+            commands: commands
+        }
 
       :forward ->
-        [x, y] = rover |> Rover.forward()
+        [x, y] = __MODULE__.forward(rover)
 
-        %Rover{
+        %__MODULE__{
           rover
           | x: x,
             y: y,
@@ -36,31 +74,37 @@ defmodule Rover do
     end
   end
 
-  def command(rover) do
-    rover
-  end
+  def command(rover), do: rover
 
-  def left(%{heading: heading}) do
+  @spec left(%__MODULE__{}) :: heading
+  def left(%__MODULE__{heading: heading}) do
     case heading do
       :north -> :west
       :west -> :south
       :south -> :east
       :east -> :north
-      _ -> raise "invalid heading"
     end
   end
 
-  def right(%{heading: heading}) do
+  @spec right(%__MODULE__{}) :: heading
+  def right(%__MODULE__{heading: heading}) do
     case heading do
       :north -> :east
       :east -> :south
       :south -> :west
       :west -> :north
-      _ -> raise "invalid heading"
     end
   end
 
-  def forward(%{heading: heading, x: x, y: y, max_x: max_x, max_y: max_y}) do
+  # TODO better spec for return
+  @spec forward(%__MODULE__{}) :: [integer]
+  def forward(%__MODULE__{
+        heading: heading,
+        x: x,
+        y: y,
+        max_x: max_x,
+        max_y: max_y
+      }) do
     case heading do
       :north when y == max_y -> [x, 0]
       :north -> [x, y + 1]
@@ -70,7 +114,6 @@ defmodule Rover do
       :east -> [x + 1, y]
       :west when x == 0 -> [max_x, y]
       :west -> [x - 1, y]
-      _ -> raise "unhandled forward"
     end
   end
 end
