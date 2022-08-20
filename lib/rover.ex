@@ -63,7 +63,7 @@ defmodule Rover do
         }
 
       :forward ->
-        [x, y] = __MODULE__.forward(rover)
+        {x, y} = __MODULE__.forward(rover)
 
         %__MODULE__{
           rover
@@ -96,8 +96,7 @@ defmodule Rover do
     end
   end
 
-  # TODO better spec for return
-  @spec forward(%__MODULE__{}) :: [integer]
+  @spec forward(%__MODULE__{}) :: {integer, integer}
   def forward(%__MODULE__{
         heading: heading,
         x: x,
@@ -106,14 +105,14 @@ defmodule Rover do
         max_y: max_y
       }) do
     case heading do
-      :north when y == max_y -> [x, 0]
-      :north -> [x, y + 1]
-      :south when y == 0 -> [x, max_y]
-      :south -> [x, y - 1]
-      :east when x == max_x -> [0, y]
-      :east -> [x + 1, y]
-      :west when x == 0 -> [max_x, y]
-      :west -> [x - 1, y]
+      :north when y == max_y -> {x, 0}
+      :north -> {x, y + 1}
+      :south when y == 0 -> {x, max_y}
+      :south -> {x, y - 1}
+      :east when x == max_x -> {0, y}
+      :east -> {x + 1, y}
+      :west when x == 0 -> {max_x, y}
+      :west -> {x - 1, y}
     end
   end
 end
