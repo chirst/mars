@@ -53,17 +53,17 @@ defmodule Rover do
 
     case command do
       :left ->
-        %__MODULE__{rover | heading: __MODULE__.left(rover), commands: commands}
+        %__MODULE__{rover | heading: left(rover), commands: commands}
 
       :right ->
         %__MODULE__{
           rover
-          | heading: __MODULE__.right(rover),
+          | heading: right(rover),
             commands: commands
         }
 
       :forward ->
-        {x, y} = __MODULE__.forward(rover)
+        {x, y} = forward(rover)
 
         %__MODULE__{
           rover
